@@ -1,6 +1,4 @@
-# Journal of Healthcare Sciences (Backend) #
-
-Journal of Healthcare Sciences (JOHS) is a Saudi peer-reviewed healthcare and science journal for healthcare professionals from all fields of medical, healthcare and science which include and not limited to medicine, dentistry, nursing, pharmacy and physiotherapy. Journal of Healthcare Sciences (JOHS) aims to improve the scientific quality of the papers with a peer review system aimed at alleviating the quality of the researches published in the Kingdom of Saudi Arabia as part of the 2030 vision.
+# Express API - With Role based permission management system
 
 ## Getting Started
 
