@@ -1,14 +1,14 @@
 {
-  "name": "Journal of Healthcare Sciences",
+  "name": "Express Rest API",
   "version": "1.0.0",
-  "description": "Journal of Healthcare Sciences is a Saudi peer-reviewed healthcare and science journal for healthcare professionals from all fields of medical, healthcare and science which include and not limited to medicine, dentistry, nursing, pharmacy and physiotherapy. Journal of Healthcare Sciences aims to improve the scientific quality of the papers with a peer review system aimed at alleviating the quality of the researches published in the Kingdom of Saudi Arabia as part of the 2030 vision.",
+  "description": "Express Rest API with role based permission management system",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "devStart": "nodemon app.js"
   },
-  "author": "Onnmed LLC - www.onnmed.com",
+  "author": "Shahbaz Bin Tahir",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
