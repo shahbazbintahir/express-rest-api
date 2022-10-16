@@ -1,6 +1,6 @@
-# REST API using JWT in EXPRESS #
+# Journal of Healthcare Sciences (Backend) #
 
-Our Services to the Science and Medical World
+Journal of Healthcare Sciences (JOHS) is a Saudi peer-reviewed healthcare and science journal for healthcare professionals from all fields of medical, healthcare and science which include and not limited to medicine, dentistry, nursing, pharmacy and physiotherapy. Journal of Healthcare Sciences (JOHS) aims to improve the scientific quality of the papers with a peer review system aimed at alleviating the quality of the researches published in the Kingdom of Saudi Arabia as part of the 2030 vision.
 
 ## Getting Started
 
@@ -25,11 +25,10 @@ Say what the step will be
 
 ```
 1. npm intsall
-3. copy and paste .env.example and rename it to .env
-4. vi .env
+2. copy and paste .env.example and rename it to .env
+3. vi .env
 
 Change Envoirnment variable mentioned in .env accroding to your needs
 
-
-6. npm start
+4. npm start
 ```

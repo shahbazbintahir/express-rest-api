@@ -1,26 +1,29 @@
 const jwt = require('jsonwebtoken');
 
+const AppError = require('../utils/appError');
+
 const clientSecret = require("../config/clientSecret.config");
 
 module.exports = (req, res, next) => {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
-    const error = new Error('Not authenticated.');
-    error.statusCode = 401;
-    throw error;
+    return next(
+      new AppError(`Not Unauthorized.`, 401)
+    );
   }
   const token = authHeader.split(' ')[1];
   let decodedToken;
   try {
     decodedToken = jwt.verify(token, clientSecret.key);
   } catch (err) {
-    err.statusCode = 500;
-    throw err;
+    return next(
+      new AppError(`${err}`, 500)
+    );
   }
   if (!decodedToken) {
-    const error = new Error('Not authenticated asd.');
-    error.statusCode = 401;
-    throw error;
+    return next(
+      new AppError(`Not Unauthorized`, 401)
+    );
   }
   req.userId = decodedToken.userId;
   next();

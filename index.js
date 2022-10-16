@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const config = require("./config/index.js");
+
+const appConfig = require("./config/index.config");
+const dbConfig = require("./config/db.config");
 
 const app = express();
 
@@ -18,8 +20,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/user', require('./routes/user.routes'));
-app.use('/auth', require('./routes/auth.routes'));
+app.use('/api/user/', require('./routes/user.routes'));
+app.use('/api/auth/', require('./routes/auth.routes'));
+app.use('/api/role/', require('./routes/role.routes'));
 
 app.use((error, req, res, next) => {
   console.log(error);
@@ -30,16 +33,14 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(`mongodb://${config.db.HOST}:${config.db.PORT}/${config.db.DB}`, {
+  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
   .then(() => {
-    console.log("Successfully connect to MongoDB.");
     // set port, listen for requests
-    const PORT = process.env.APP_PORT || 8080;
+    const PORT = appConfig.application_port;
     app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}.`);
     });
   })
   .catch(err => {

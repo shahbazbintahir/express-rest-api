@@ -1,114 +1,68 @@
-const { validationResult } = require('express-validator');
+// third party import
+const Joi = require("joi");
 
-const User = require('../../models/user');
+// import models
+const { User, userUpdateValidate } = require('../../models/user');
 
-exports.getUsers = async (req, res, next) => {
-  const currentPage = req.query.page || 1;
-  const perPage = 2;
-  let totalItems;
+// import utils (helper functions)
+const catchAsync = require('../../utils/catchAsync');
+const AppError = require('../../utils/appError');
+const factory = require('../handleFactory');
 
-  try {
-    const count = await Post.find().countDocuments();
-    totalItems = count;
-    const posts = await Post.find().skip((currentPage - 1) * perPage).limit(perPage)
 
-    res.status(200).json({
-      message: 'Fetched posts successfully.',
-      posts: posts,
-      totalItems: totalItems
-    });
+exports.getAllUser = factory.getAll(User);
+exports.getUser = factory.getOne(User);
 
-  } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+exports.updateUser = catchAsync(async (req, res, next) => {
+  // validate request body using Joi Validation define in User Mongoes models
+  const { error } = userUpdateValidate(req.body);
+  if (error) {
+    return next(
+      new AppError(`${error.details[0].message}`, 400)
+    );
   }
-
-  // Post.find()
-  //   .countDocuments()
-  //   .then(count => {
-  //     totalItems = count;
-  //     return Post.find()
-  //       .skip((currentPage - 1) * perPage)
-  //       .limit(perPage);
-  //   })
-  //   .then(posts => {
-  //     res.status(200).json({
-  //       message: 'Fetched posts successfully.',
-  //       posts: posts,
-  //       totalItems: totalItems
-  //     });
-  //   })
-  //   .catch(err => {
-  //     if (!err.statusCode) {
-  //       err.statusCode = 500;
-  //     }
-  //     next(err);
-  //   });
-};
-
-exports.updateUser = async (req, res, next) => {
+  // find user and update
   const userId = req.params.userId;
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const error = new Error('Validation failed, entered data is incorrect.');
-    error.statusCode = 422;
-    throw error;
-  }
-  
-  const name = req.body.name;
-
-  try {
-    const user = await User.findById(userId);
-    if (!user) {
-      const error = new Error('Could not find user.');
-      error.statusCode = 404;
-      throw error;
+  const result = await User.findByIdAndUpdate(
+    userId,
+    req.body,
+    { 
+      new: false, 
+      runValidators: true, 
+      returnOriginal: false 
     }
-    console.log(user._id);
-    if (user._id.toString() !== req.userId) {
-      const error = new Error('Not authorized!');
-      error.statusCode = 403;
-      throw error;
-    }
-    user.name = name;
-    const result = await user.save();
-    res.status(200).json({ message: 'User updated!', user: result });
-    
-  } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
-  }
+  );
 
+  res.status(200).json({ 
+    message: 'User updated!', 
+    user: result 
+  });
+});
 
+exports.deactivateUser = catchAsync(async (req, res, next) => {
+  const result = await User.findByIdAndUpdate(
+    req.params.id, 
+    {
+      active: false,
+    },
+    { new: false, runValidators: true, returnOriginal: false }
+  );
+  res.status(200).json({
+    message: 'User Deactivated!',
+    user: result,
+  });
+});
 
-
-  // User.findById(userId)
-  //   .then(user => {
-  //     if (!user) {
-  //       const error = new Error('Could not find user.');
-  //       error.statusCode = 404;
-  //       throw error;
-  //     }
-  //     console.log(user._id);
-  //     if (user._id.toString() !== req.userId) {
-  //       const error = new Error('Not authorized!');
-  //       error.statusCode = 403;
-  //       throw error;
-  //     }
-  //     user.name = name;
-  //     return user.save();
-  //   })
-  //   .then(result => {
-  //     res.status(200).json({ message: 'User updated!', user: result });
-  //   })
-  //   .catch(err => {
-  //     if (!err.statusCode) {
-  //       err.statusCode = 500;
-  //     }
-  //     next(err);
-  //   });
-};
+exports.activateUser = catchAsync(async (req, res, next) => {
+  const result = await User.findByIdAndUpdate(
+    req.params.id, 
+    {
+      active: true,
+    },
+    { new: false, runValidators: true, returnOriginal: false }
+  );
+  res.status(200).json({ 
+    message: 'User Activated!',
+    user: result,
+  });
+});
