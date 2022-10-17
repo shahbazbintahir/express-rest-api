@@ -1,7 +1,9 @@
+// import utils (helper functions)
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
 
+// delete one
 const deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
@@ -15,6 +17,7 @@ const deleteOne = (Model) =>
     });
   });
 
+// update one
 const updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
@@ -29,6 +32,7 @@ const updateOne = (Model) =>
     });
   });
 
+// delete one
 const createOne = (Model) =>
   catchAsync(async (req, res) => {
     const newTour = await Model.create(req.body);
@@ -39,6 +43,7 @@ const createOne = (Model) =>
     });
   });
 
+// get one
 const getOne = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
@@ -52,7 +57,8 @@ const getOne = (Model, populateOptions) =>
     });
   });
 
-  const getAll = (Model) =>
+// get all
+const getAll = (Model) =>
   catchAsync(async (req, res) => {
     //To Allow nested  GET reviews rotes
     let filter = {};
@@ -70,4 +76,6 @@ const getOne = (Model, populateOptions) =>
       data: doc,
     });
   });
+
+// export all function
 module.exports = { deleteOne, updateOne, createOne, getOne, getAll };

@@ -1,6 +1,10 @@
+// third party import
 const mongoose = require("mongoose");
+
+// access schema from mongoose
 const Schema = mongoose.Schema;
 
+// create Object of schema for role
 const tokenSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
@@ -18,4 +22,5 @@ const tokenSchema = new Schema({
     },
 });
 
+// export model
 module.exports = mongoose.model("token", tokenSchema);

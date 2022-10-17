@@ -1,7 +1,10 @@
+// third party import
 const nodemailer = require('nodemailer');
 
+// import config information
 const emailConfiguration = require("../config/email.config");
 
+// helper function for sending email
 const sendEmail= async (options) => {
   //creating a transporter
   const transporter = nodemailer.createTransport(emailConfiguration);
@@ -17,4 +20,5 @@ const sendEmail= async (options) => {
   await transporter.sendMail(mailOptions);
 };
 
+// export function
 module.exports = sendEmail;

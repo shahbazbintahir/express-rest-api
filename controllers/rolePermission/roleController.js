@@ -6,12 +6,13 @@ const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
 const factory = require('../handleFactory');
 
-
+// get list of all roles
 exports.getAllRole = factory.getAll(Role);
+
+// get specific role
 exports.getRole = factory.getOne(Role);
 
-
-// API Function responsible for creating new user
+// add new role
 exports.addRole = catchAsync(async (req, res, next) => {
 
   // read request body
@@ -29,7 +30,7 @@ exports.addRole = catchAsync(async (req, res, next) => {
     return next(
       new AppError(`${error.details[0].message}`, 400)
     );
-  }
+  } // end if
 
   // find user from db
   const checkExistingRole = await Role.findOne({ slug: slug });
@@ -37,7 +38,7 @@ exports.addRole = catchAsync(async (req, res, next) => {
     return next(
       new AppError(`Role Already Exist ${req.body.name} `, 400)
     );
-  }
+  } // end if
 
   // create new Role object
   const role = new Role({
@@ -49,7 +50,7 @@ exports.addRole = catchAsync(async (req, res, next) => {
   // adding role in db using mongoes role Object
   const result = await role.save();
 
-  // set response with user and JWT token
+  // end success response
   res.status(201).json({
     message: "Role created!",
     code: 201,
@@ -57,7 +58,7 @@ exports.addRole = catchAsync(async (req, res, next) => {
   });
 });
 
-
+// update specific role
 exports.updateRole = catchAsync(async (req, res, next) => {
 
   // read request body
@@ -75,7 +76,7 @@ exports.updateRole = catchAsync(async (req, res, next) => {
     return next(
       new AppError(`${error.details[0].message}`, 400)
     );
-  }
+  } // end if
 
   // find role and update
   const roleId = req.params.roleId;
@@ -86,9 +87,13 @@ exports.updateRole = catchAsync(async (req, res, next) => {
       slug: slug,
       rolePermission: rolePermission,
     },
-    { new: false, runValidators: true, }
+    { 
+      new: false, 
+      runValidators: true, 
+      returnOriginal: false 
+    }
   );
-
+  // end success response
   res.status(200).json({ 
     message: 'Role updated!', 
     role: result 

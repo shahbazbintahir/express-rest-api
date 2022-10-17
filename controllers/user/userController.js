@@ -9,10 +9,13 @@ const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
 const factory = require('../handleFactory');
 
-
+// get all users 
 exports.getAllUser = factory.getAll(User);
+
+// get specific users 
 exports.getUser = factory.getOne(User);
 
+// update specific users 
 exports.updateUser = catchAsync(async (req, res, next) => {
   // validate request body using Joi Validation define in User Mongoes models
   const { error } = userUpdateValidate(req.body);
@@ -20,7 +23,7 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     return next(
       new AppError(`${error.details[0].message}`, 400)
     );
-  }
+  } // end if
   // find user and update
   const userId = req.params.userId;
   const result = await User.findByIdAndUpdate(
@@ -32,13 +35,14 @@ exports.updateUser = catchAsync(async (req, res, next) => {
       returnOriginal: false 
     }
   );
-
+  // send success response
   res.status(200).json({ 
     message: 'User updated!', 
     user: result 
   });
 });
 
+// deactivate specific users 
 exports.deactivateUser = catchAsync(async (req, res, next) => {
   const result = await User.findByIdAndUpdate(
     req.params.id, 
@@ -53,6 +57,7 @@ exports.deactivateUser = catchAsync(async (req, res, next) => {
   });
 });
 
+// activate specific users 
 exports.activateUser = catchAsync(async (req, res, next) => {
   const result = await User.findByIdAndUpdate(
     req.params.id, 

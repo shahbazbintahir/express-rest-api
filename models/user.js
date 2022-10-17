@@ -1,9 +1,12 @@
+// third party import
 const mongoose = require('mongoose');
 const Joi = require("joi");
 const bcrypt = require('bcryptjs');
 
+// access schema from mongoose
 const Schema = mongoose.Schema;
 
+// create Object of schema for user
 const userSchema = new Schema(
   {
     name: {
@@ -48,6 +51,7 @@ const userSchema = new Schema(
   }
 );
 
+// define schema method for checking password and confirm password
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
@@ -55,8 +59,28 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
+// define schema pre set rule for save operation
+userSchema.pre('save', function (next) {
+    let user = this;
+    if(typeof(user.email) != 'undefined'){
+      user.email = user.email.replace(/ /g, "").toLowerCase();
+    }
+    next();
+});
+
+// define schema pre set rule for update operation
+userSchema.pre('findOneAndUpdate', async function (next) {
+    let user = this._update;
+    if(typeof(user.email) != 'undefined'){
+      this._update.email = user.email.replace(/ /g, "").toLowerCase();
+    }
+    next();
+});
+
+// create mongoose model from schema
 const User = mongoose.model("user", userSchema);
 
+// validator for adding any user
 const userValidate = (user) => {
   const schema = Joi.object({
     name: Joi.string().required(),
@@ -66,6 +90,7 @@ const userValidate = (user) => {
   return schema.validate(user);
 };
 
+// validator for updating and user
 const userUpdateValidate = (user) => {
   const schema = Joi.object({
     name: Joi.string(),
@@ -76,4 +101,5 @@ const userUpdateValidate = (user) => {
   return schema.validate(user);
 };
 
+// export model
 module.exports = { User, userValidate, userUpdateValidate };

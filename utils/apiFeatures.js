@@ -1,9 +1,13 @@
+// helper class responsible for handing api access operation
 class APIFeatures {
+
+  // constructor function for initialization
   constructor(query, queryString) {
     this.query = query;
     this.queryString = queryString;
   }
 
+  // method for filtering required elements
   filter() {
     // if u want to get the data using query object(Filtering)
     const queryObj = { ...this.queryString };
@@ -16,6 +20,7 @@ class APIFeatures {
     return this;
   }
 
+  // method for filtering sorting on basis of specific elements
   sorting() {
     //ascending sort=property
     //descending sort=-property
@@ -28,6 +33,8 @@ class APIFeatures {
     return this;
   }
 
+
+  // method for adding limit of access
   limitFields() {
     if (this.queryString.fields) {
       const fields = this.queryString.fields.split(',').join(' ');
@@ -38,6 +45,7 @@ class APIFeatures {
     return this;
   }
 
+  // method for pagination
   pagination() {
     const page = this.queryString.page * 1 || 1;
     const limit = this.queryString.limit * 1 || 100;
@@ -47,4 +55,5 @@ class APIFeatures {
   }
 }
 
+// export class
 module.exports = APIFeatures;

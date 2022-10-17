@@ -1,3 +1,4 @@
+// helper class responsible for handing api error
 class AppError extends Error {
   constructor(message, statusCode) {
     super(message);
@@ -8,4 +9,5 @@ class AppError extends Error {
   }
 }
 
+// export class
 module.exports = AppError;

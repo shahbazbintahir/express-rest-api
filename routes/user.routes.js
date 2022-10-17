@@ -1,10 +1,10 @@
+// third party import
 const express = require('express');
-const { body } = require('express-validator');
 
+// import Controller
 const userController = require('../controllers/user/userController');
 
-// include middleware list
-const isAuth = require('../middleware/auth');
+// include middleware 
 const checkFeaturePermission = require('../middleware/checkFeaturePermission');
 
 const router = express.Router();

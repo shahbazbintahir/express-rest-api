@@ -1,7 +1,9 @@
+// third party import
 const express = require('express');
-const { body } = require('express-validator');
 
+// import Controller
 const authController = require('../controllers/auth/authController');
+
 const router = express.Router();
 
 router.put('/signup', authController.Signup);
