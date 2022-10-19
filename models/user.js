@@ -1,6 +1,9 @@
 // third party import
 const mongoose = require('mongoose');
 const Joi = require("joi");
+const { joiPasswordExtendCore } = require("joi-password");
+const joiPassword = Joi.extend(joiPasswordExtendCore);
+
 const bcrypt = require('bcryptjs');
 
 // access schema from mongoose
@@ -101,5 +104,87 @@ const userUpdateValidate = (user) => {
   return schema.validate(user);
 };
 
+// validator for updating and user
+const userUpdatePasswordValidate = (user) => {
+  const schema = Joi.object({
+    currentPassword: Joi.string()
+    .min(4)
+    .required()
+    .messages({
+      'string.empty': `Current password cannot be an empty`,
+      'string.min': `Current password should have a minimum length of {#limit} characters`,
+      'any.required': `Current password is a required`,
+    }),
+    newPassword: joiPassword.string()
+      .invalid(Joi.ref('currentPassword'))
+      .minOfSpecialCharacters(1)
+      .minOfLowercase(1)
+      .minOfUppercase(1)
+      .minOfNumeric(1)
+      .noWhiteSpaces()
+      .required()
+      .messages({
+        'string.empty': `Password cannot be an empty`,
+        'string.min': `Password should have a minimum length of {#limit} characters`,
+        'any.required': `Password is a required`,
+        'any.invalid': `Password must be different from current password`,
+        "password.minOfUppercase": 'Password must contain at least one uppercase letter',
+        "password.minOfLowercase": 'Password must contain at least one lowercase letter',
+        "password.minOfNumeric": 'Password must contain at least one number',
+        "password.minOfSpecialCharacters": 'Password must contain at least one special character',
+        "password.noWhiteSpaces": 'Password must not contain spaces',
+      }),
+    confirmPassword: Joi.string().valid(Joi.ref('newPassword')).required().messages({
+      'string.empty': `Confirm password cannot be an empty`,
+      'any.only': `Confirm password must be same as password`,
+      'any.required': `Confirm password is a required`,
+    }),
+  });
+  return schema.validate(user);
+};
+
+
+// validator for updating and user
+const userRestPasswordValidate = (user) => {
+  const schema = Joi.object({
+    userId: Joi.string()
+    .required()
+    .messages({
+      'string.empty': `User information cannot be an empty`,
+      'any.required': `User information is a required`,
+    }),
+    token: Joi.string()
+    .required()
+    .messages({
+      'string.empty': `Token information cannot be an empty`,
+      'any.required': `Token information is a required`,
+    }),
+    password: joiPassword.string()
+      .minOfSpecialCharacters(1)
+      .minOfLowercase(1)
+      .minOfUppercase(1)
+      .minOfNumeric(1)
+      .noWhiteSpaces()
+      .required()
+      .messages({
+        'string.empty': `Password cannot be an empty`,
+        'string.min': `Password should have a minimum length of {#limit} characters`,
+        'any.required': `Password is a required`,
+        "password.minOfUppercase": 'Password must contain at least one uppercase letter',
+        "password.minOfLowercase": 'Password must contain at least one lowercase letter',
+        "password.minOfNumeric": 'Password must contain at least one number',
+        "password.minOfSpecialCharacters": 'Password must contain at least one special character',
+        "password.noWhiteSpaces": 'Password must not contain spaces',
+      }),
+    confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+      'string.empty': `Confirm password cannot be an empty`,
+      'any.only': `Confirm password must be same as password`,
+      'any.required': `Confirm password is a required`,
+    }),
+  });
+  return schema.validate(user);
+};
+
+
 // export model
-module.exports = { User, userValidate, userUpdateValidate };
+module.exports = { User, userValidate, userUpdateValidate, userUpdatePasswordValidate, userRestPasswordValidate };

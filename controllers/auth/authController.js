@@ -5,7 +5,7 @@ const Joi = require("joi");
 
 // import models
 const Token = require("../../models/token");
-const { User, userValidate } = require('../../models/user');
+const { User, userValidate, userUpdatePasswordValidate, userRestPasswordValidate } = require('../../models/user');
 
 // import config information
 const clientSecret = require("../../config/clientSecret.config");
@@ -117,7 +117,8 @@ exports.Login = catchAsync(async (req, res, next) => {
 exports.PasswordRecover = catchAsync(async (req, res, next) => {
   // validate request body using Joi Object
   const schema = Joi.object({
-    email: Joi.string().email().required()
+    email: Joi.string().email().required(),
+    reference_url: Joi.string().required(),
   });
   const { error } = schema.validate(req.body);
   if (error) {
@@ -159,13 +160,13 @@ exports.PasswordRecover = catchAsync(async (req, res, next) => {
   }
   
   // create link 
-  const link = `${process.env.BASE_URL}/api/auth/password/reset/${user._id}/${token.token}`;
+  const link = `${req.body.reference_url}${user._id}/${token.token}`;
   // send email
   const message = `Forgot your password? Submit a PATCH request with your new password and confirm password to: ${link}.\nIf you didn't forgot your password, please ignore this email`;
   await sendEmail({
     email: user.email,
-    subject: 'Your password reset token (valid for 10 min) ',
-    message,
+    subject: 'Your password reset request (valid for 10 min) ',
+    message: message,
   });
 
   // send success response
@@ -177,22 +178,21 @@ exports.PasswordRecover = catchAsync(async (req, res, next) => {
 
 // API Function responsible for resting password from recovery url
 exports.PasswordReset = catchAsync(async (req, res, next) => {
-  // validate request body using Joi Object
-  const schema = Joi.object({ password: Joi.string().required() });
-  const { error } = schema.validate(req.body);
+  // validate request body using Joi Rule
+  const { error } = userRestPasswordValidate(req.body);
   if (error) {
     return next(new AppError(`${error.details[0].message}`, 400));
   }
 
   // find user form db
-  const user = await User.findById(req.params.userId);
+  const user = await User.findById(req.body.userId);
   // throw error if password is not matched
   if (!user) return next(new AppError(`User with given email doesn't exist`, 404));
 
   // find user token form db
   const token = await Token.findOne({
     userId: user._id,
-    token: req.params.token,
+    token: req.body.token,
   });
   // throw error if token not found is not matched
   if (!token) return next(new AppError(`Invalid link or expired`, 403));
@@ -210,5 +210,62 @@ exports.PasswordReset = catchAsync(async (req, res, next) => {
   return res.status(200).json({
     message: 'Password reset successfully.',
     code: 200,
+  });
+});
+
+
+// update specific users 
+exports.changeUserPassword = catchAsync(async (req, res, next) => {
+  // validate request body using Joi Validation define in User Mongoes models
+  const { error } = userUpdatePasswordValidate(req.body);
+  if (error) {
+    return next(
+      new AppError(`${error.details[0].message}`, 400)
+    );
+  } // end if
+
+  const token = req.get('Authorization').split(' ')[1];
+  let decodedToken = jwt.verify(token, clientSecret.key);
+  if (!decodedToken) {
+    // return error 
+    return next(
+      new AppError(`Not Unauthorized`, 401)
+    );
+  } // end if
+
+  req.userId = decodedToken.userId;
+  // get user 
+  const userResult = await User.findById(decodedToken.userId).select('password');
+  
+  // match user password with request password
+  const isEqual = await bcrypt.compare(req.body.newPassword, userResult.password);
+  if (!isEqual) {
+    // throw error if password is not matched
+    return next(new AppError('New password must be different from current password', 403));
+  }
+
+  // find user and update
+  const userId = userResult.userId;
+  // encrypt password using hashing
+  const hashedPw = await bcrypt.hash(req.body.newPassword, 12);
+  // update password again user
+  const result = await User.findByIdAndUpdate(
+    userId,
+    {
+      password: hashedPw,
+    },
+    { 
+      new: false, 
+      runValidators: true, 
+      returnOriginal: false 
+    }
+  );
+
+  console.log(result);
+  
+  // send success response
+  res.status(200).json({ 
+    message: 'Password is successfully updated!', 
+    user: result 
   });
 });

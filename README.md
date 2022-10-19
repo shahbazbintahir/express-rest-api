@@ -1,4 +1,6 @@
-# Express API - With Role based permission management system
+# JExpress and Mongoose REST API #
+
+Includes user authentication and authorization
 
 ## Getting Started
 
@@ -22,11 +24,50 @@ A step by step series of examples that tell you how to get a development env run
 Say what the step will be
 
 ```
-1. npm intsall
+1. npm install
 2. copy and paste .env.example and rename it to .env
 3. vi .env
 
-Change Envoirnment variable mentioned in .env accroding to your needs
+Change Environment variable mentioned in .env according to your needs
 
 4. npm start
+```
+
+## Setup Started
+
+Post Main collection for your reference is also added in Root Directory [Express - Backend.postman_collection.json]
+
+### Create Role ###
+
+Create Role according to user need from given request
+
+```
+POST /api/role/add
+
+//Body
+{
+    "name": "Users",
+    "rolePermission": [
+        'user-add',
+        'user-update',
+        'user-delete',
+        'user-view',
+    ]
+}
+```
+
+### Create permission with feature ###
+
+Create permission with feature according to user need from given request
+
+Remember for user access permission with "name": "User" is used in users middleware for reference 
+
+```
+POST /api/permission/add
+
+//Body
+{
+    "name": "User",
+    "feature": ["Add", "Update", "Delete", "View"]
+}
 ```
