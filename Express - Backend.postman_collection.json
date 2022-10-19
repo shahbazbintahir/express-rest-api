@@ -82,7 +82,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/auth/password/reset/63426e12bf6b5521250e5925/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWhiYXpiaW50YWhpckBnbWFpbC5jb20iLCJ1c2VySWQiOiI2MzQyNmUxMmJmNmI1NTIxMjUwZTU5MjUiLCJpYXQiOjE2NjUzMDMyODgsImV4cCI6MTY2NTMwNjg4OH0.btkvga3SRP_vA9kvUKAKXX3Gn1mvf18sqKjGNsgMzbY",
+							"raw": "http://localhost:8000/api/auth/password/reset",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -92,9 +92,7 @@
 								"api",
 								"auth",
 								"password",
-								"reset",
-								"63426e12bf6b5521250e5925",
-								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWhiYXpiaW50YWhpckBnbWFpbC5jb20iLCJ1c2VySWQiOiI2MzQyNmUxMmJmNmI1NTIxMjUwZTU5MjUiLCJpYXQiOjE2NjUzMDMyODgsImV4cCI6MTY2NTMwNjg4OH0.btkvga3SRP_vA9kvUKAKXX3Gn1mvf18sqKjGNsgMzbY"
+								"reset"
 							]
 						}
 					},

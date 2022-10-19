@@ -10,6 +10,6 @@ router.put('/signup', authController.Signup);
 router.post('/login', authController.Login);
 
 router.post("/password/recover", authController.PasswordRecover);
-router.get("/password/reset/:userId/:token", authController.PasswordReset);
+router.get("/password/reset", authController.PasswordReset);
 
 module.exports = router;
