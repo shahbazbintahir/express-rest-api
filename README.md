@@ -1,4 +1,4 @@
-# JExpress and Mongoose REST API #
+# Express and Mongoose REST API #
 
 Includes user authentication and authorization
 
@@ -35,7 +35,7 @@ Change Environment variable mentioned in .env according to your needs
 
 ## Setup Started
 
-Post Main collection for your reference is also added in Root Directory Express - Backend.postman_collection.json
+Postman collection for your reference is also added in Root Directory Express - Backend.postman_collection.json
 
 ### Create Role ###
 
