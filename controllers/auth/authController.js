@@ -18,13 +18,10 @@ const sendEmail = require("../../utils/email");
 // API Function responsible for creating new user
 exports.Signup = catchAsync(async (req, res, next) => {
 
-  // read request body
-  const email = req.body.email;
-  const name = req.body.name;
-  const password = req.body.password;
+  const body = req.body;
 
   // validate request body using Joi Validation define in User Mongoes models
-  const { error } = userValidate(req.body);
+  const { error } = userValidate(body);
   if (error) {
     return next(
       new AppError(`${error.details[0].message}`, 400)
@@ -32,23 +29,21 @@ exports.Signup = catchAsync(async (req, res, next) => {
   }
 
   // find user from db
-  const checkExistingUser = await User.findOne({ email: email });
+  const checkExistingUser = await User.findOne({ email: body.email });
   if (checkExistingUser) {
     return next(
-      new AppError(`User Already Registered with email ${req.body.email} `, 400)
+      new AppError(`User Already Registered with email ${body.email} `, 400)
     );
   }
 
+  if(typeof(body.username) == 'undefined') {
+    body.username = "";
+  } // set user name
+
   // encrypt password using hashing
-  const hashedPw = await bcrypt.hash(password, 12);
-
+  body.password = await bcrypt.hash(body.password, 12);
   // create new User object
-  const user = new User({
-    email: email,
-    password: hashedPw,
-    name: name
-  });
-
+  const user = new User(body);
   // adding user in db using mongoes user Object
   const result = await user.save();
   
@@ -67,7 +62,7 @@ exports.Signup = catchAsync(async (req, res, next) => {
     message: "User created!",
     code: 201,
     token: token,
-    userId: result._id.toString()
+    userId: result._id.toString(),
   });
 });
 
@@ -75,12 +70,12 @@ exports.Signup = catchAsync(async (req, res, next) => {
 exports.Login = catchAsync(async (req, res, next) => {
 
   // read request body
-  const email = req.body.email;
+  const user_info = req.body.user_info;
   const password = req.body.password;
 
   let loadedUser;
   // find user from db
-  const user = await User.findOne({ email: email }).select('password');
+  const user = await User.findOne({$or:[{username: user_info},{email: user_info}]}).select('password');
   if (!user) {
     // return with error of user not found in db
     return next(new AppError('A user with this email could not be found.', 404));
@@ -260,9 +255,6 @@ exports.changeUserPassword = catchAsync(async (req, res, next) => {
       returnOriginal: false 
     }
   );
-
-  console.log(result);
-  
   // send success response
   res.status(200).json({ 
     message: 'Password is successfully updated!', 

@@ -9,9 +9,9 @@ const isAdministration = require('../middleware/Administration');
 
 const router = express.Router();
 
-router.get('/getPermission/:id', [ isAdministration, ], permissionController.getPermission);
-router.get('/getAllPermission', [ isAdministration, ], permissionController.getAllPermission);
-router.put('/update/:permissionId', [ isAdministration, ], permissionController.updatePermission);
-router.post('/add', [ isAdministration, ], permissionController.addPermission);
+router.get('/getPermission/:id', [ isAdministration ], permissionController.getPermission);
+router.get('/getAllPermission', [ isAdministration ], permissionController.getAllPermission);
+router.put('/update/:permissionId', [ isAdministration ], permissionController.updatePermission);
+router.post('/add', [ isAdministration ], permissionController.addPermission);
 
 module.exports = router;

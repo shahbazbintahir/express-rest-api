@@ -57,6 +57,19 @@ const getOne = (Model, populateOptions) =>
     });
   });
 
+const getByFiled = (Model, getBy, populateOptions) =>
+  catchAsync(async (req, res, next) => {
+    let query = Model.findOne({ [getBy]: req.params.id });
+    if (populateOptions) query = query.populate(populateOptions);
+    const doc = await query;
+    // const doc = await Model.findById(req.params.id).populate('reviews');
+    if (!doc) return next(new AppError('No document found with that ID', 404));
+    res.status(200).json({
+      status: 'Success',
+      data: doc,
+    });
+  });
+
 // get all
 const getAll = (Model) =>
   catchAsync(async (req, res) => {
@@ -78,4 +91,4 @@ const getAll = (Model) =>
   });
 
 // export all function
-module.exports = { deleteOne, updateOne, createOne, getOne, getAll };
+module.exports = { deleteOne, updateOne, createOne, getOne, getByFiled, getAll };

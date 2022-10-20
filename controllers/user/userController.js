@@ -14,6 +14,7 @@ exports.getAllUser = factory.getAll(User);
 
 // get specific users 
 exports.getUser = factory.getOne(User);
+exports.getByUsername = factory.getByFiled(User, "username");
 
 // update specific users 
 exports.updateUser = catchAsync(async (req, res, next) => {

@@ -12,6 +12,7 @@ const isAuth = require('../middleware/auth');
 const router = express.Router();
 
 router.get('/getUser/:id', [ checkFeaturePermission('user', 'view') ], userController.getUser);
+router.get('/getByUsername/:id', [ checkFeaturePermission('user', 'view') ], userController.getByUsername);
 router.post('/activateUser/:id', [ checkFeaturePermission('user', 'update') ], userController.activateUser);
 router.post('/deactivateUser/:id', [ checkFeaturePermission('user', 'update') ], userController.deactivateUser);
 router.get('/getAllUser', [ checkFeaturePermission('user', 'view') ], userController.getAllUser);
