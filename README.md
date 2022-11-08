@@ -1,5 +1,7 @@
 # Express and Mongoose REST API #
 
+Express with Mongoose REST API Application with scalable projects architecture
+
 Includes user authentication and authorization
 
 ## Getting Started
