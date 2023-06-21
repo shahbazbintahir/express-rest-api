@@ -23,13 +23,17 @@ module.exports = (permission, feature) => {
             );
         }
         const token = authHeader.split(' ')[1];
-        let decodedToken = jwt.verify(token, clientSecret.key);
-        if (!decodedToken) {
+
+        let decodedToken;
+        try {
+            decodedToken = jwt.verify(token, clientSecret.key);
+        } catch (err) {
             // return error
             return res.status(401).json(
-                Response.unauthorize({ message: `Unauthorized.` })
+                Response.unauthorize({ message: `Token expired` })
             );
-        }
+        } // catch
+        
         req.userId = decodedToken.userId;
         const result = await User.findById(
             decodedToken.userId,

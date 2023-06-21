@@ -4,6 +4,7 @@ const {Permission, permissionValidator, permissionUpdateValidate} = require('../
 // import utils (helper functions)
 const catchAsync = require('../../utils/catchAsync');
 const { Response } = require('../../../framework');
+const { validateErrorFormatting } = require('../../utils/helperFunction');
 const factory = require('../handleFactory');
 
 // get list of all permission
@@ -16,7 +17,7 @@ exports.getPermission = factory.getOne(Permission);
 exports.addPermission = catchAsync(async (req, res) => {
     // read request body
     const name = req.body.name;
-    const slug = name.replace(/(\r\n|\n|\r)/gm, "");
+    const slug = name.replace(/(\r\n|\n|\r| )/gm, "");
     const feature = req.body.feature;
 
     // validate request body using Joi Validation define in User Mongoes models
@@ -26,8 +27,8 @@ exports.addPermission = catchAsync(async (req, res) => {
         feature: feature,
     });
     if (error) {
-        return res.status(400).json(
-            Response.error({ message: `${error.details[0].message}` })
+        return res.status(422).json(
+            Response.validation({ data: validateErrorFormatting(error) })
         );
     } // end if
 
@@ -42,20 +43,21 @@ exports.addPermission = catchAsync(async (req, res) => {
     const result = await permission.save();
 
     // set response with user and JWT token
-    res.status(201).json({
-        message: "Permission created!",
-        nextRequestToken: req.token,
-        code: 201,
-        permissionId: result._id.toString()
-    });
+    res.status(200).json(
+        Response.success({ 
+            message: "Permission created!",
+            status: 200,
+            data: result,
+            accessToken: req.token,
+        })
+    );
 });
 
 // update specific permission
 exports.updatePermission = catchAsync(async (req, res) => {
-    console.log("yes");
     // read request body
     const name = req.body.name;
-    const slug = name.replace(/(\r\n|\n|\r)/gm, "");
+    const slug = name.replace(/(\r\n|\n|\r| )/gm, "");
     const feature = req.body.feature;
 
     // validate request body using Joi Validation define in User Mongoes models
@@ -65,8 +67,8 @@ exports.updatePermission = catchAsync(async (req, res) => {
         feature: feature,
     });
     if (error) {
-        return res.status(400).json(
-            Response.error({ message: `${error.details[0].message}` })
+        return res.status(422).json(
+            Response.validation({ data: validateErrorFormatting(error) })
         );
     } // end if
     // find Permission and update
@@ -85,9 +87,12 @@ exports.updatePermission = catchAsync(async (req, res) => {
         }
     );
     // end success response
-    res.status(200).json({
-        message: 'Permission updated!',
-        nextRequestToken: req.token,
-        Permission: result
-    });
+    res.status(200).json(
+        Response.success({ 
+            message: 'Permission updated!',
+            status: 200,
+            data: result,
+            accessToken: req.token,
+        })
+    );
 });

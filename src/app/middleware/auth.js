@@ -9,7 +9,7 @@ const { Response } = require('../../framework');
 const clientSecret = require("../config/clientSecret.config");
 
 // export middleware
-module.exports = catchAsync((req, res, next) => {
+module.exports = catchAsync(async (req, res, next) => {
     const authHeader = req.get('Authorization');
     if (!authHeader) {
         // return error
@@ -18,13 +18,16 @@ module.exports = catchAsync((req, res, next) => {
         );
     } // end if
     const token = authHeader.split(' ')[1];
-    let decodedToken = jwt.verify(token, clientSecret.key);
-    if (!decodedToken) {
+    let decodedToken;
+    try {
+        decodedToken = jwt.verify(token, clientSecret.key);
+    } catch (err) {
         // return error
         return res.status(401).json(
-            Response.unauthorize({ message: `Unauthorized.` })
+            Response.unauthorize({ message: `Token expired` })
         );
-    } // end if
+    } // catch
+
     req.userId = decodedToken.userId;
     // create JWT for next response
     const newToken = jwt.sign(

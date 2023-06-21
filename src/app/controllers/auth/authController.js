@@ -5,13 +5,14 @@ const Joi = require("joi");
 
 // import models
 const Token = require("../../models/token");
-const {User, userValidate, userUpdatePasswordValidate, userRestPasswordValidate} = require('../../models/user');
+const { User, userSignUpValidate, userUpdatePasswordValidate, userRestPasswordValidate } = require('../../models/user');
 
 // import config information
 const clientSecret = require("../../config/clientSecret.config");
 
 // import utils (helper functions)
 const catchAsync = require('../../utils/catchAsync');
+const { validateErrorFormatting } = require('../../utils/helperFunction');
 const { Response } = require('../../../framework');
 const sendForgetPasswordMail = require("../../utils/email/forgetPassword");
 
@@ -21,15 +22,15 @@ exports.Signup = catchAsync(async (req, res) => {
     const body = req.body;
 
     // validate request body using Joi Validation define in User Mongoes models
-    const {error} = userValidate(body);
+    const { error } = userSignUpValidate(body);
     if (error) {
-        return res.status(400).json(
-            Response.error({ message: `${error.details[0].message}` })
+        return res.status(422).json(
+            Response.validation({ data: validateErrorFormatting(error) })
         );
     }
 
     // find user from db
-    const checkExistingUser = await User.findOne({email: body.email});
+    const checkExistingUser = await User.findOne({ email: body.email });
     if (checkExistingUser) {
         return res.status(400).json(
             Response.error({ message: `User Already Registered with email ${body.email}` })
@@ -54,16 +55,18 @@ exports.Signup = catchAsync(async (req, res) => {
             userId: result._id.toString()
         },
         clientSecret.key,
-        {expiresIn: '1h'}
+        { expiresIn: '1h' }
     );
 
     // set response with user and JWT token
-    res.status(201).json({
-        message: "User created!",
-        status: 201,
-        token: token,
-        userId: result._id.toString(),
-    });
+    res.status(200).json(
+        Response.success({
+            status: 200,
+            message: "Account created!",
+            data: result,
+            accessToken: token,
+        })
+    );
 });
 
 // API Function responsible for login (create access token)
@@ -75,11 +78,11 @@ exports.Login = catchAsync(async (req, res) => {
 
     let loadedUser;
     // find user from db
-    const user = await User.findOne({$or: [{username: user_info}, {email: user_info}]}).select('password');
+    const user = await User.findOne({ $or: [{ username: user_info }, { email: user_info }] }).select('password');
     if (!user) {
         // return with error of user not found in db
-        return res.status(404).json(
-            Response.notFound({ message: `A user with this email could not be found.` })
+        return res.status(403).json(
+            Response.forbidden({ message: `Incorrect email/password!` })
         );
     }
     loadedUser = user;
@@ -89,7 +92,7 @@ exports.Login = catchAsync(async (req, res) => {
     if (!isEqual) {
         // throw error if password is not matched
         return res.status(403).json(
-            Response.forbidden({ message: 'Incorrect password!' })
+            Response.forbidden({ message: 'Incorrect email/password!' })
         );
     }
 
@@ -100,16 +103,21 @@ exports.Login = catchAsync(async (req, res) => {
             userId: loadedUser._id.toString()
         },
         clientSecret.key,
-        {expiresIn: '1h'}
+        { expiresIn: '1h' }
     );
 
+
+    const loginUserInfo = await User.findById(loadedUser._id);
+
     // set response with user and JWT token
-    res.status(200).json({
-        message: "succeed",
-        status: 200,
-        token: token,
-        userId: loadedUser._id.toString()
-    });
+    res.status(200).json(
+        Response.success({
+            status: 200,
+            message: "succeed",
+            data: loginUserInfo,
+            accessToken: token,
+        })
+    );
 });
 
 // API Function responsible for sending recover password
@@ -119,11 +127,10 @@ exports.PasswordRecover = catchAsync(async (req, res) => {
         email: Joi.string().email().required(),
         reference_url: Joi.string().required(),
     });
-    const {error} = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
     if (error) {
-        // throw error if password is not matched
-        return res.status(400).json(
-            Response.error({ message: `${error.details[0].message}`})
+        return res.status(422).json(
+            Response.validation({ data: validateErrorFormatting(error) })
         );
     }
 
@@ -134,7 +141,7 @@ exports.PasswordRecover = catchAsync(async (req, res) => {
     if (!user) {
         // throw error if password is not matched
         return res.status(404).json(
-            Response.notFound({ message: `user with given email doesn't exist` })
+            Response.notFound({ message: `User with given email doesn't exist` })
         );
     }
 
@@ -151,7 +158,7 @@ exports.PasswordRecover = catchAsync(async (req, res) => {
                 userId: user._id.toString()
             },
             clientSecret.key,
-            {expiresIn: '10m'}
+            { expiresIn: '10m' }
         );
 
         // save token in db for record
@@ -173,23 +180,25 @@ exports.PasswordRecover = catchAsync(async (req, res) => {
         subject: 'Password reset instructions',
         name: user.first_name,
         link: link,
-        websiteLink: "https://johs.com.sa/"
+        websiteLink: "https://ecom.com.sa/"
     });
 
     // send success response
-    return res.status(200).json({
-        message: 'You will receive an email with instructions about how to reset your password in a few minutes. Please check your spam folder if you do not receive it after a few minutes.',
-        status: 200,
-    });
+    return res.status(200).json(
+        Response.success({
+            message: 'You will receive an email with instructions about how to reset your password in a few minutes. Please check your spam folder if you do not receive it after a few minutes.',
+            status: 200,
+        })
+    );
 });
 
 // API Function responsible for resting password from recovery url
 exports.PasswordReset = catchAsync(async (req, res) => {
     // validate request body using Joi Rule
-    const {error} = userRestPasswordValidate(req.body);
+    const { error } = userRestPasswordValidate(req.body);
     if (error) {
-        return res.status(400).json(
-            Response.error({ message: `${error.details[0].message}` })
+        return res.status(422).json(
+            Response.validation({ data: validateErrorFormatting(error) })
         );
     }
 
@@ -219,64 +228,11 @@ exports.PasswordReset = catchAsync(async (req, res) => {
     await token.delete();
 
     // send success response
-    return res.status(200).json({
-        message: 'Password reset successfully.',
-        status: 200,
-    });
-});
-
-
-// update specific users 
-exports.changeUserPassword = catchAsync(async (req, res) => {
-    // validate request body using Joi Validation define in User Mongoes models
-    const {error} = userUpdatePasswordValidate(req.body);
-    if (error) {
-        return res.status(400).json(
-            Response.notFound({ message: `${error.details[0].message}` })
-        );
-    } // end if
-
-    const token = req.get('Authorization').split(' ')[1];
-    let decodedToken = jwt.verify(token, clientSecret.key);
-    if (!decodedToken) {
-        // return error
-        return res.status(401).json(
-            Response.notFound({ message: `Not Unauthorized` })
-        );
-    } // end if
-
-    req.userId = decodedToken.userId;
-    // get user
-    const userResult = await User.findById(decodedToken.userId).select('password');
-
-    // match user password with request password
-    const isEqual = await bcrypt.compare(req.body.newPassword, userResult.password);
-    if (!isEqual) {
-        // throw error if password is not matched
-        return res.status(403).json(
-            Response.notFound({ message: `New password must be different from current password` })
-        );
-    } // end if
-
-    // find user and update
-    const userId = userResult.userId;
-    // encrypt password using hashing
-    const hashedPw = await bcrypt.hash(req.body.newPassword, 12);
-    // update password again user
-    const result = await User.findByIdAndUpdate(
-        userId,
-        {
-            password: hashedPw,
-        },
-        {
-            new: false,
-            runValidators: true,
-            returnOriginal: false
-        }
+    return res.status(200).json(
+        Response.success({
+            message: 'Password reset successfully.',
+            status: 200,
+        })
     );
-    // send success response
-    res.status(200).json({
-        message: 'Password is successfully updated!',
-        user: result
-    });
 });
+

@@ -4,6 +4,7 @@ const {Role, roleValidate, roleUpdateValidate} = require('../../models/role');
 // import utils (helper functions)
 const catchAsync = require('../../utils/catchAsync');
 const { Response } = require('../../../framework');
+const { validateErrorFormatting } = require('../../utils/helperFunction');
 const factory = require('../handleFactory');
 
 // get list of all roles
@@ -17,7 +18,7 @@ exports.addRole = catchAsync(async (req, res) => {
 
     // read request body
     const name = req.body.name;
-    const slug = name.replace(/(\r\n|\n|\r)/gm, "");
+    const slug = name.replace(/(\r\n|\n|\r| )/gm, "");
     const rolePermission = req.body.rolePermission;
 
     // validate request body using Joi Validation define in User Mongoes models
@@ -27,8 +28,8 @@ exports.addRole = catchAsync(async (req, res) => {
         rolePermission: rolePermission,
     });
     if (error) {
-        return res.status(400).json(
-            Response.error({ message: `${error.details[0].message}` })
+        return res.status(422).json(
+            Response.validation({ data: validateErrorFormatting(error) })
         );
     } // end if
 
@@ -51,31 +52,29 @@ exports.addRole = catchAsync(async (req, res) => {
     const result = await role.save();
 
     // end success response
-    res.status(201).json({
-        message: "Role created!",
-        nextRequestToken: req.token,
-        code: 201,
-        roleId: result._id.toString()
-    });
+    res.status(200).json(
+        Response.success({ 
+            message: "Role created!",
+            status: 200,
+            data: result,
+            accessToken: req.token,
+        })
+    );
 });
 
 // update specific role
 exports.updateRole = catchAsync(async (req, res) => {
 
     // read request body
-    const name = req.body.name;
-    const slug = name.replace(/(\r\n|\n|\r)/gm, "");
     const rolePermission = req.body.rolePermission;
 
     // validate request body using Joi Validation define in User Mongoes models
     const {error} = roleUpdateValidate({
-        name: name,
-        slug: slug,
         rolePermission: rolePermission,
     });
     if (error) {
-        return res.error(400).json(
-            Response.error({ message: `${error.details[0].message}` })
+        return res.status(422).json(
+            Response.validation({ data: validateErrorFormatting(error) })
         );
     } // end if
 
@@ -84,8 +83,6 @@ exports.updateRole = catchAsync(async (req, res) => {
     const result = await Role.findByIdAndUpdate(
         roleId,
         {
-            name: name,
-            slug: slug,
             rolePermission: rolePermission,
         },
         {
@@ -95,9 +92,12 @@ exports.updateRole = catchAsync(async (req, res) => {
         }
     );
     // end success response
-    res.status(200).json({
-        message: 'Role updated!',
-        nextRequestToken: req.token,
-        role: result
-    });
+    res.status(200).json(
+        Response.success({ 
+            message: 'Role updated!',
+            status: 200,
+            data: result,
+            accessToken: req.token,
+        })
+    );
 });
