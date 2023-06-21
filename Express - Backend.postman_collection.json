@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "2c750551-b770-4e96-b005-e3c335ccbd23",
-		"name": "Express",
+		"_postman_id": "92a8ac5e-6ecf-44e8-a747-a4663fb8f25d",
+		"name": "Express - Backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -29,7 +29,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"shahbaz@onnmed.com\",\r\n    \"password\": \"Shahbaz@123\"\r\n}",
+							"raw": "{\r\n    \"email\": \"laibabintatahir@gmail.com\",\r\n    \"password\": \"Laiba@123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -55,7 +55,6 @@
 				{
 					"name": "Password/Reset",
 					"protocolProfileBehavior": {
-						"disableBodyPruning": true,
 						"disabledSystemHeaders": {
 							"content-type": true
 						}
@@ -64,7 +63,7 @@
 						"auth": {
 							"type": "noauth"
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -74,7 +73,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"Shahbaz@177\",\r\n    \"confirmPassword\": \"Shahbaz@177\",\r\n    \"userId\": \"634d15b3a8783549872ec67b\",\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWhiYXpiaW50YWhpckBnbWFpbC5jb20iLCJ1c2VySWQiOiI2MzRkMTViM2E4NzgzNTQ5ODcyZWM2N2IiLCJpYXQiOjE2NjYxNzIzNTYsImV4cCI6MTY2NjE3Mjk1Nn0.bX0kw-bOTK9CDPgY0TLmppWXxsR41AEiMYGAjPUvkpM\"\r\n}",
+							"raw": "{\r\n    \"password\": \"Shahbaz@177\",\r\n    \"confirmPassword\": \"Shahbaz@177\",\r\n    \"userId\": \"6379cc771dd3ad6b358def1a\",\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWhiYXpAb25ubWVkLmNvbSIsInVzZXJJZCI6IjYzNzljYzc3MWRkM2FkNmIzNThkZWYxYSIsImlhdCI6MTY2ODkyNjcyMSwiZXhwIjoxNjY4OTI3MzIxfQ.g1_wyVv0duP85y8DMRiNi_OOSEfQe6hfoDTU7RLsMRA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -99,6 +98,51 @@
 					"response": []
 				},
 				{
+					"name": "dbSeed",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"shahbaz@onnmed.com\",\r\n    \"password\": \"Shahbaz@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/app/db/seed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"app",
+								"db",
+								"seed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Sign UP",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
@@ -109,7 +153,7 @@
 						"auth": {
 							"type": "noauth"
 						},
-						"method": "PUT",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -190,6 +234,201 @@
 			]
 		},
 		{
+			"name": "Permission",
+			"item": [
+				{
+					"name": "updatePermission",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mzc5Y2M3NzFkZDNhZDZiMzU4ZGVmMWEiLCJpYXQiOjE2Njg5MjY4OTksImV4cCI6MTY2ODkzMDQ5OX0.B6CiWhcr9WPPNr7BPp1xObn14Qzv1blKL6Wu6EtCnXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Company\",\r\n    \"feature\": [\"Add\", \"Update\", \"Delete\", \"View\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/permission/update/6379cc771dd3ad6b358def0a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"permission",
+								"update",
+								"6379cc771dd3ad6b358def0a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllPermission",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mzg0YjA3ZjhhYjkzMjNmZWJiNzQxMmYiLCJpYXQiOjE2NzE2OTg4OTQsImV4cCI6MTY3MTcwMjQ5NH0.9QZvovoxLtqGaO_iJOzPvGhaxRGnTEBWX30Vyj7JQLU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/permission/getAllPermission",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"permission",
+								"getAllPermission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPermission",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mzg0YjA3ZjhhYjkzMjNmZWJiNzQxMmYiLCJpYXQiOjE2NzE2OTg4OTQsImV4cCI6MTY3MTcwMjQ5NH0.9QZvovoxLtqGaO_iJOzPvGhaxRGnTEBWX30Vyj7JQLU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/permission/getPermission/6384b07e8ab9323febb7411f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"permission",
+								"getPermission",
+								"6384b07e8ab9323febb7411f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addPermission",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mzg0YjA3ZjhhYjkzMjNmZWJiNzQxMmYiLCJpYXQiOjE2Njk3OTU3MTIsImV4cCI6MTY2OTc5OTMxMn0.JKPheUYOz_JCywL-L4Hm744_oS4tN7DGysohleQvcFU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Article Published\",\r\n    \"feature\": [\"Add\", \"Update\", \"Delete\", \"View\", \"Assign\", \"Unassign\", \"Change Status\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/permission/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"permission",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Role",
 			"item": [
 				{
@@ -200,7 +439,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdjYzc1YTZlODU3NGFkZGY4NzA5YjkiLCJpYXQiOjE2NjkxMjE5OTAsImV4cCI6MTY2OTEyNTU5MH0.kzuCQvLbU8gEQFNLGW6vF2ZOTIk7iUI0jh1x19AInMk",
 									"type": "string"
 								}
 							]
@@ -217,7 +456,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/role/update/634babf21d7131de6a8b0ea2",
+							"raw": "http://localhost:8000/api/role/update/637cc7596e8574addf8709b2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -227,7 +466,7 @@
 								"api",
 								"role",
 								"update",
-								"634babf21d7131de6a8b0ea2"
+								"637cc7596e8574addf8709b2"
 							]
 						}
 					},
@@ -255,7 +494,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDg1NTAsImV4cCI6MTY2NzkxMjE1MH0.bPuQTns402u5QYxBPyd3MVdCjpgPpyJautJ8_BJLlE0",
 									"type": "string"
 								}
 							]
@@ -310,7 +549,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mzg0YjA3ZjhhYjkzMjNmZWJiNzQxMmYiLCJpYXQiOjE2NzE2OTg4OTQsImV4cCI6MTY3MTcwMjQ5NH0.9QZvovoxLtqGaO_iJOzPvGhaxRGnTEBWX30Vyj7JQLU",
 									"type": "string"
 								}
 							]
@@ -327,7 +566,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/role/getAllRole?fields=name,slug,rolePermission",
+							"raw": "http://localhost:8000/api/role/getAllRole",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -337,12 +576,6 @@
 								"api",
 								"role",
 								"getAllRole"
-							],
-							"query": [
-								{
-									"key": "fields",
-									"value": "name,slug,rolePermission"
-								}
 							]
 						}
 					},
@@ -356,7 +589,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDg1NTAsImV4cCI6MTY2NzkxMjE1MH0.bPuQTns402u5QYxBPyd3MVdCjpgPpyJautJ8_BJLlE0",
 									"type": "string"
 								}
 							]
@@ -391,62 +624,10 @@
 			]
 		},
 		{
-			"name": "Permission",
+			"name": "Profile",
 			"item": [
 				{
-					"name": "updateRole",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Company\",\r\n    \"feature\": [\"Add\", \"Update\", \"Delete\", \"View\"]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/permission/update/634d10d451e50a0ff397c41b",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"permission",
-								"update",
-								"634d10d451e50a0ff397c41b"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getAllPermission",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
+					"name": "getProfile",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -456,7 +637,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzk5OTMsImV4cCI6MTY4NzM0MzU5M30.UuKT89qjF18PQCFpNeFK_MZdGd614In7vTDRCy-w7wg",
 									"type": "string"
 								}
 							]
@@ -473,7 +654,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/permission/getAllPermission?fields=name,slug",
+							"raw": "http://localhost:8000/api/profile/getProfile",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -481,83 +662,22 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"permission",
-								"getAllPermission"
-							],
-							"query": [
-								{
-									"key": "fields",
-									"value": "name,slug"
-								}
+								"profile",
+								"getProfile"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getPermission",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "updateProfile",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/permission/getPermission/6356430d7d9460271ea0c309",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"permission",
-								"getPermission",
-								"6356430d7d9460271ea0c309"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "addPermission",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzk5OTMsImV4cCI6MTY4NzM0MzU5M30.UuKT89qjF18PQCFpNeFK_MZdGd614In7vTDRCy-w7wg",
 									"type": "string"
 								}
 							]
@@ -566,7 +686,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"ArticlePublished\",\r\n    \"feature\": [\"Add\", \"Update\", \"Delete\", \"View\", \"Assign\", \"Unassign\", \"Change Status\"]\r\n}",
+							"raw": "{\r\n    \"occupation\": \"Operation Executive\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -574,7 +694,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/permission/add",
+							"raw": "http://localhost:8000/api/profile/updateProfile",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -582,8 +702,161 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"permission",
-								"add"
+								"profile",
+								"updateProfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deactivateProfile",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzk5OTMsImV4cCI6MTY4NzM0MzU5M30.UuKT89qjF18PQCFpNeFK_MZdGd614In7vTDRCy-w7wg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/profile/activateProfile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"profile",
+								"activateProfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activateProfile",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzk5OTMsImV4cCI6MTY4NzM0MzU5M30.UuKT89qjF18PQCFpNeFK_MZdGd614In7vTDRCy-w7wg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/profile/deactivateProfile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"profile",
+								"deactivateProfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeProfilePassword",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzk5OTMsImV4cCI6MTY4NzM0MzU5M30.UuKT89qjF18PQCFpNeFK_MZdGd614In7vTDRCy-w7wg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\": \"Laiba@123\",\r\n    \"newPassword\": \"Laiba@1234\",\r\n    \"confirmPassword\": \"Laiba@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/profile/changeProfilePassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"profile",
+								"changeProfilePassword"
 							]
 						}
 					},
@@ -595,6 +868,64 @@
 			"name": "User",
 			"item": [
 				{
+					"name": "Public",
+					"item": [
+						{
+							"name": "all",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/user/all?active=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"user",
+										"all"
+									],
+									"query": [
+										{
+											"key": "active",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "updateUser",
 					"request": {
 						"auth": {
@@ -602,7 +933,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDg1NTAsImV4cCI6MTY2NzkxMjE1MH0.bPuQTns402u5QYxBPyd3MVdCjpgPpyJautJ8_BJLlE0",
 									"type": "string"
 								}
 							]
@@ -611,7 +942,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"role\": \"administration\",\r\n    \"first_name\": \"Shahbaz\",\r\n    \"middle_name\": \"Bin\",\r\n    \"last_name\": \"Tahir\",\r\n    \"department\": \"IT\",\r\n    \"occupation\": \"Operation Executive\"\r\n}",
+							"raw": "{\r\n    \"role\": \"administration\",\r\n    \"email\": \"ali@gmail.com\",\r\n    \"first_name\": \"Ali\",\r\n    \"last_name\": \"Khan\",\r\n    \"department\": \"Computer Science\",\r\n    \"occupation\": \"Student\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -619,7 +950,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/user/update/6357d750829d0d165a71b37e",
+							"raw": "http://localhost:8000/api/user/update/6492b3be697c52b81584d6d9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -629,7 +960,47 @@
 								"api",
 								"user",
 								"update",
-								"6357d750829d0d165a71b37e"
+								"6492b3be697c52b81584d6d9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzU5ODAsImV4cCI6MTY4NzMzOTU4MH0.pAnP7YWvZkV-Gx4YkWAdzDxkvwqCysLvouWRJcPZndc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\": \"administration\",\r\n    \"first_name\": \"Shahbaz\",\r\n    \"last_name\": \"Tahir\",\r\n    \"email\": \"shahbazbintahir@gmail.com\",\r\n    \"password\": \"Shahbaz@123\",\r\n    \"department\": \"Computer Science\",\r\n    \"occupation\": \"Student\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/user/addUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"addUser"
 							]
 						}
 					},
@@ -657,7 +1028,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzcxOTgsImV4cCI6MTY4NzM0MDc5OH0.tc0gUwMtV4Aj6O4XeIolo5f-EzXW37e79UX0dtCLY_4",
 									"type": "string"
 								}
 							]
@@ -674,7 +1045,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/user/getUserCompany/6351183b388906e51a8274a4",
+							"raw": "http://localhost:8000/api/user/getUser/6492b89c81b93aef7e9197dd",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -683,8 +1054,8 @@
 							"path": [
 								"api",
 								"user",
-								"getUserCompany",
-								"6351183b388906e51a8274a4"
+								"getUser",
+								"6492b89c81b93aef7e9197dd"
 							]
 						}
 					},
@@ -712,7 +1083,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzcwMTcsImV4cCI6MTY4NzM0MDYxN30.hnWGL192dsES6BDE-yCD-80euUwRi_g-NB6s5ihMt5w",
 									"type": "string"
 								}
 							]
@@ -729,7 +1100,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/user/getAllUser",
+							"raw": "http://localhost:8000/api/user/getAllUser?active=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -739,6 +1110,12 @@
 								"api",
 								"user",
 								"getAllUser"
+							],
+							"query": [
+								{
+									"key": "active",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -763,7 +1140,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzcxOTgsImV4cCI6MTY4NzM0MDc5OH0.tc0gUwMtV4Aj6O4XeIolo5f-EzXW37e79UX0dtCLY_4",
 									"type": "string"
 								}
 							]
@@ -780,7 +1157,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/user/deactivateUser/634b96da2e6c7e7a3c3572be",
+							"raw": "http://localhost:8000/api/user/deactivateUser/6492b89c81b93aef7e9197dd",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -790,7 +1167,7 @@
 								"api",
 								"user",
 								"deactivateUser",
-								"634b96da2e6c7e7a3c3572be"
+								"6492b89c81b93aef7e9197dd"
 							]
 						}
 					},
@@ -815,7 +1192,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDk4MDMsImV4cCI6MTY2NzkxMzQwM30.UprCs4N7maRjpqJSJLN3ng1vAVU9RC0Uz_fkBDpFtRk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzcxOTgsImV4cCI6MTY4NzM0MDc5OH0.tc0gUwMtV4Aj6O4XeIolo5f-EzXW37e79UX0dtCLY_4",
 									"type": "string"
 								}
 							]
@@ -832,7 +1209,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/user/activateUser/634b96da2e6c7e7a3c3572be",
+							"raw": "http://localhost:8000/api/user/activateUser/6492b89c81b93aef7e9197dd",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -842,7 +1219,7 @@
 								"api",
 								"user",
 								"activateUser",
-								"634b96da2e6c7e7a3c3572be"
+								"6492b89c81b93aef7e9197dd"
 							]
 						}
 					},
@@ -851,17 +1228,123 @@
 			]
 		},
 		{
-			"name": "Profile",
+			"name": "Product",
 			"item": [
 				{
-					"name": "UpdatePassword",
+					"name": "Public",
+					"item": [
+						{
+							"name": "getProduct",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/product/getProduct/6492b604ba7e021101cb3f1a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"product",
+										"getProduct",
+										"6492b604ba7e021101cb3f1a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllProduct",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/product/getAllProduct?active=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"product",
+										"getAllProduct"
+									],
+									"query": [
+										{
+											"key": "active",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "updateProduct",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDg1NTAsImV4cCI6MTY2NzkxMjE1MH0.bPuQTns402u5QYxBPyd3MVdCjpgPpyJautJ8_BJLlE0",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzg1NzYsImV4cCI6MTY4NzM0MjE3Nn0.FH8c8he1HR1I2EGAH5PHO9f2XIoVv2KPf1iGkFkdOus",
 									"type": "string"
 								}
 							]
@@ -870,7 +1353,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"currentPassword\": \"12345678Aa@aS9\",\r\n    \"newPassword\": \"12345678Aa@aS@9\",\r\n    \"confirmPassword\": \"123456789\"\r\n}",
+							"raw": "{\r\n    \"title\":\"This is Title Update\",\r\n    \"description\":\"This is Title update\",\r\n    \"stock\": 90,\r\n    \"price\": 120,\r\n    \"sales_price\": 150\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -878,7 +1361,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/user/profile/update/password",
+							"raw": "http://localhost:8000/api/product/updateProduct/6492be90a5e27ba98a4b4006",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -886,17 +1369,56 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"user",
-								"profile",
-								"update",
-								"password"
+								"product",
+								"updateProduct",
+								"6492be90a5e27ba98a4b4006"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getByUsername",
+					"name": "addProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzYzMTYsImV4cCI6MTY4NzMzOTkxNn0.w84vZiFeNFIPaHPVOYG0WqLq4vDaI6zjXMd_pzcoPNo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"This is Title\",\r\n    \"description\":\"This is Title\",\r\n    \"stock\": 0,\r\n    \"price\": 100,\r\n    \"sales_price\": 120\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/product/addProduct",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"addProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deactivateProduct",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -908,21 +1430,18 @@
 							}
 						}
 					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzU3ZDc1MDgyOWQwZDE2NWE3MWIzN2UiLCJpYXQiOjE2Njc5MDg1NTAsImV4cCI6MTY2NzkxMjE1MH0.bPuQTns402u5QYxBPyd3MVdCjpgPpyJautJ8_BJLlE0",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzYzMTYsImV4cCI6MTY4NzMzOTkxNn0.w84vZiFeNFIPaHPVOYG0WqLq4vDaI6zjXMd_pzcoPNo",
 									"type": "string"
 								}
 							]
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -934,7 +1453,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/user/getByUsername/shahbazbintahir",
+							"raw": "http://localhost:8000/api/product/deactivateProduct/6492b604ba7e021101cb3f1a",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -942,9 +1461,119 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"user",
-								"getByUsername",
-								"shahbazbintahir"
+								"product",
+								"deactivateProduct",
+								"6492b604ba7e021101cb3f1a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activateProduct",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzYzMTYsImV4cCI6MTY4NzMzOTkxNn0.w84vZiFeNFIPaHPVOYG0WqLq4vDaI6zjXMd_pzcoPNo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/product/activateProduct/6492b604ba7e021101cb3f1a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"activateProduct",
+								"6492b604ba7e021101cb3f1a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProduct",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDkyYjNiZTY5N2M1MmI4MTU4NGQ2ZDgiLCJpYXQiOjE2ODczMzYzMTYsImV4cCI6MTY4NzMzOTkxNn0.w84vZiFeNFIPaHPVOYG0WqLq4vDaI6zjXMd_pzcoPNo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uploads",
+									"type": "file",
+									"src": "/C:/Users/97152/Downloads/62645335_300x300.jpg"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/product/deleteProduct/6492b604ba7e021101cb3f1a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"deleteProduct",
+								"6492b604ba7e021101cb3f1a"
 							]
 						}
 					},
