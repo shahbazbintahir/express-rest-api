@@ -119,7 +119,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"shahbaz@onnmed.com\",\r\n    \"password\": \"Shahbaz@123\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1352,8 +1352,14 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"title\":\"This is Title Update\",\r\n    \"description\":\"This is Title update\",\r\n    \"stock\": 90,\r\n    \"price\": 120,\r\n    \"sales_price\": 150\r\n}",
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Shahbaz Bin Tahir/Desktop/20230211_144146.jpg"
+								}
+							],
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1361,7 +1367,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/product/updateProduct/6492be90a5e27ba98a4b4006",
+							"raw": "http://localhost:8000/api/product/updateProduct/6492be90a5e27ba98a4b4006?file",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1372,6 +1378,12 @@
 								"product",
 								"updateProduct",
 								"6492be90a5e27ba98a4b4006"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": null
+								}
 							]
 						}
 					},

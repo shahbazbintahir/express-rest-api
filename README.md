@@ -37,40 +37,16 @@ Change Environment variable mentioned in .env according to your needs
 
 ## Setup Started
 
-Postman collection for your reference is also added in Root Directory Express - Backend.postman_collection.json
+Postman collection for your reference is also added in Root Directory Express - Backend.postman_collection.json, 
 
-### Create Role ###
-
-Create Role according to user need from given request
+Run DB Seeder API form the PostMan, Avalible inside the collection Auth folder (Auth/dbSeed)
 
 ```
-POST /api/role/add
+GET http://localhost:8000/app/db/seed
 
-//Body
+Body
 {
-    "name": "Users",
-    "rolePermission": [
-        'user-add',
-        'user-update',
-        'user-delete',
-        'user-view',
-    ]
-}
-```
-
-### Create permission with feature ###
-
-Create permission with feature according to user need from given request
-
-Remember for user access permission with "name": "User" is used in users middleware for reference 
-
-```
-POST /api/permission/add
-
-//Body
-{
-    "name": "User",
-    "feature": ["Add", "Update", "Delete", "View"]
+    
 }
 ```
 
